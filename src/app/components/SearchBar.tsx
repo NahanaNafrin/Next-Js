@@ -1,9 +1,9 @@
-
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-function SearchBar() {
+function SearchBarContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get("search") || "";
 
@@ -13,7 +13,7 @@ function SearchBar() {
                 type="text"
                 name="search"
                 defaultValue={query}
-                 placeholder="🔍Search Your products here"
+                placeholder="🔍 Search Your products here"
                 className="border border-gray-500 w-100 rounded px-4 py-1 outline-none focus:ring-2 focus:ring-blue-500"
                 required
             />
@@ -24,9 +24,14 @@ function SearchBar() {
             >
                 Search
             </button>
-               
         </form>
     );
 }
 
-export default SearchBar;
+export default function SearchBar() {
+    return (
+        <Suspense fallback={<div>Loading search...</div>}>
+            <SearchBarContent />
+        </Suspense>
+    );
+}
